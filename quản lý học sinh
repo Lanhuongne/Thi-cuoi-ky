@@ -1,0 +1,104 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Student {
+    String name;
+    String id;
+    String dob;
+
+    public Student(String name, String id, String dob) {
+        this.name = name;
+        this.id = id;
+        this.dob = dob;
+    }
+
+    public void display() {
+        System.out.println("Tên: " + name);
+        System.out.println("ID: " + id);
+        System.out.println("Ngày sinh: " + dob);
+    }
+}
+
+public class StudentManagementSystem {
+
+    private static ArrayList<Student> students = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int choice;
+        do {
+            System.out.println("===== Hệ thống quản lý học sinh =====");
+            System.out.println("1. Thêm học sinh");
+            System.out.println("2. Xem thông tin học sinh");
+            System.out.println("3. Tìm kiếm học sinh");
+            System.out.println("4. Quay lại lựa chọn");
+            System.out.print("Chọn một lựa chọn (1-4): ");
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Đọc bỏ dòng mới sau khi nhập lựa chọn
+
+            switch (choice) {
+                case 1:
+                    addStudent();
+                    break;
+                case 2:
+                    viewAllStudents();
+                    break;
+                case 3:
+                    searchStudent();
+                    break;
+                case 4:
+                    System.out.println("Thoát khỏi chương trình...");
+                    break;
+                default:
+                    System.out.println("Lựa chọn không hợp lệ, vui lòng chọn lại.");
+            }
+        } while (choice != 4);
+    }
+
+    // Hàm thêm học sinh
+    private static void addStudent() {
+        System.out.print("Nhập tên học sinh: ");
+        String name = scanner.nextLine();
+        System.out.print("Nhập ID học sinh: ");
+        String id = scanner.nextLine();
+        System.out.print("Nhập ngày sinh (dd/MM/yyyy): ");
+        String dob = scanner.nextLine();
+        
+        Student newStudent = new Student(name, id, dob);
+        students.add(newStudent);
+        System.out.println("Học sinh đã được thêm thành công.");
+    }
+
+    // Hàm xem tất cả học sinh
+    private static void viewAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("Chưa có học sinh nào trong hệ thống.");
+        } else {
+            System.out.println("Danh sách học sinh:");
+            for (Student student : students) {
+                student.display();
+                System.out.println("-----------------------------------");
+            }
+        }
+    }
+
+    // Hàm tìm kiếm học sinh theo ID
+    private static void searchStudent() {
+        System.out.print("Nhập ID học sinh cần tìm: ");
+        String searchId = scanner.nextLine();
+        boolean found = false;
+        
+        for (Student student : students) {
+            if (student.id.equals(searchId)) {
+                System.out.println("Thông tin học sinh tìm thấy:");
+                student.display();
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            System.out.println("Không tìm thấy học sinh với ID: " + searchId);
+        }
+    }
+}
